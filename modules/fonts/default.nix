@@ -21,7 +21,6 @@ in
       packages = with pkgs; [
         meslo-lgs-nf
         noto-fonts-emoji
-        corefonts
         recursive
       ];
 

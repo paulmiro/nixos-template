@@ -2,7 +2,6 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
-  config,
   lib,
   modulesPath,
   ...
@@ -12,35 +11,31 @@
   ### 🚧 This file is just here to have a complete example, don't try to copy anything from here 🚧
 
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
   boot.initrd.availableKernelModules = [
+    "ata_piix"
     "xhci_pci"
-    "nvme"
-    "usb_storage"
-    "usbhid"
-    "sd_mod"
+    "ahci"
+    "virtio_pci"
+    "sr_mod"
+    "virtio_blk"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.growPartition = true;
 
   fileSystems."/" = {
-    # device = "/dev/disk/by-uuid/GENERATED-UUID-ROOT";
-    fsType = "btrfs";
-    options = [ "subvol=@" ];
+    device = "/dev/disk/by-uuid/GENERATED-UUID-HERE-ROOT";
+    fsType = "ext4";
+    autoResize = true;
   };
 
-  #boot.initrd.luks.devices."luks-GENERATED-UUID-LUKS".device = "/dev/disk/by-uuid/GENERATED-UUID-LUKS";
-
   fileSystems."/boot" = {
-    # device = "/dev/disk/by-uuid/GENERATAED-UUID-BOOT";
+    device = "/dev/disk/by-uuid/GENERATED-UUID-HERE-BOOT";
     fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
   };
 
   swapDevices = [ ];
@@ -50,9 +45,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.ens3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

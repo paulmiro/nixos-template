@@ -13,16 +13,18 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.steam.enable = true;
-    environment.systemPackages = with pkgs; [
-      (lutris.override {
-        extraPkgs = pkgs: [
-          # List package dependencies here
-        ];
-        extraLibraries = pkgs: [
-          # List library dependencies here
-        ];
-      })
-    ];
+    ## TODO: uncomment this only if you also uncommented the allowUnfree options
+
+    # programs.steam.enable = true;
+    # environment.systemPackages = with pkgs; [
+    #   (lutris.override {
+    #     extraPkgs = pkgs: [
+    #       # List package dependencies here
+    #     ];
+    #     extraLibraries = pkgs: [
+    #       # List library dependencies here
+    #     ];
+    #   })
+    # ];
   };
 }

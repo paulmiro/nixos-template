@@ -10,8 +10,8 @@ in
 {
   ### WARNING: enabling this module may drastically prolong build times
 
-  options.my-config.nvidia = with lib; {
-    enable = mkEnableOption "activate nvidia";
+  options.my-config.nvidia = {
+    enable = lib.mkEnableOption "activate nvidia";
   };
 
   config = lib.mkIf cfg.enable {

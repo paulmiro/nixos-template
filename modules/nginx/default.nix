@@ -7,13 +7,13 @@ let
   cfg = config.my-config.nginx;
 in
 {
-  options.my-config.nginx = with lib; {
-    enable = mkEnableOption "activate nginx";
+  options.my-config.nginx = {
+    enable = lib.mkEnableOption "activate nginx";
 
-    openFirewall = mkEnableOption "open port 80 and 443";
+    openFirewall = lib.mkEnableOption "open port 80 and 443";
 
-    defaultDomain = mkOption {
-      type = types.str;
+    defaultDomain = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
       default = null;
       description = "The fallback domain to use for the nginx configuration";
     };
@@ -41,6 +41,8 @@ in
       };
     };
 
+    ## some parts of this template repostory will break without this.
+    ## if you don't want to accept the letsencrpt TOS, just remove all mentions of enableACME and forceSSL
     # security.acme.defaults.email = "example@example.com"; # TODO: add an email address for letsencrypt
     # security.acme.acceptTerms = true; # TODO: uncomment to accept letsencrypt terms of service
 

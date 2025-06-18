@@ -26,7 +26,7 @@
   sdImage.imageBaseName = "raspi-image";
 
   networking = {
-    hostName = "pi3a-example";
+    hostName = "example-pi3a";
     networkmanager.enable = true;
   };
 
