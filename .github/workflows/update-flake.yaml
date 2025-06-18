@@ -1,0 +1,32 @@
+# This GitHub action will create a pull request each week to update your inputs
+# TODO: if you want to use this, make sure to set the following options in your repository:
+# under Settings > Actions > General > Workflow Permissions
+# - Read and write permissions
+# - Allow GitHub Actions to create and approve pull requests
+# If you don't want to use it, you should delete this file to avoid getting annoying emails about failed workflow runs
+
+name: update-flake-lock
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update flake.lock
+        id: update
+        uses: DeterminateSystems/update-flake-lock@v25
+
+      - name: Print PR number
+        run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.

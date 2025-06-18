@@ -1,0 +1,38 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.my-config.fonts;
+in
+{
+  options.my-config.fonts = {
+    enable = lib.mkEnableOption "activate fonts";
+  };
+
+  config = lib.mkIf cfg.enable {
+    # TODO: change this to your liking
+
+    fonts = {
+      fontDir.enable = true;
+
+      packages = with pkgs; [
+        meslo-lgs-nf
+        noto-fonts-emoji
+        corefonts
+        recursive
+      ];
+
+      fontconfig = {
+        defaultFonts = {
+          serif = [ "Recursive Sans Casual Static Medium" ];
+          sansSerif = [ "Recursive Sans Linear Static Medium" ];
+          monospace = [ "MesloLGS NF" ];
+          emoji = [ "Noto Color Emoji" ];
+        };
+      };
+    };
+  };
+}
