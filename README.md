@@ -23,8 +23,7 @@ This repository contains quite a bit of opinionanted configuration, but I tried 
    - add the line `{ self, ... }:` above the first line
    - add the line `my-config.common.enable = true;` somewhere in the main body of the file
      - you can also use `comon-desktop` instead of `common` if you want to use the GNOME dekstop environment
-7. run `nixos-rebuild switch --sudo --flake ".#YOUR-MACHINE-HOSTNAME"` to
-   - (TODO: make sure no experimental features junk is needed here)
+7. run `nixos-rebuild switch --sudo --flake ".#YOUR-MACHINE-HOSTNAME"` to build the NixOS configuration in this repository and switch to it
 8. if everything worked, you can `sudo reboot now`
    - technically, this isn't neccessary, but it makes sure you get dropped into the proper shell/desktop environment
 9. run `nix-channel --list` and then `nix-channel --remove NAME` for each listed channel
