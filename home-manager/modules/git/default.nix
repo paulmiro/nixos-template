@@ -16,12 +16,18 @@ in
     programs.git = {
       enable = true;
       lfs.enable = true;
-      extraConfig = {
-        # pull.rebase = true; # uncomment this if you are a merge commit hater
+      settings = {
+        # TODO: set your git name and email here
+        user.name = "Example Name";
+        user.email = "example@example.com";
+
         init.defaultBranch = "main";
+
+        # these options change the default behavior of git. I like them, you may not.
+        # pull.rebase = true;
+        # rebase.autostatsh = true;
+        # merge.autostatsh = true;
       };
-      # userEmail = "example@example.com"; # TODO: set your git userEmail
-      # userName = "Example Musterperson"; # TODO: set your git userName
     };
 
     home.packages = with pkgs; [

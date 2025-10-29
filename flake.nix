@@ -34,7 +34,9 @@
         "aarch64-linux"
         "x86_64-linux"
       ];
+
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
       nixpkgsFor = forAllSystems (
         system:
         import nixpkgs {
@@ -47,8 +49,10 @@
       # This allows you to run `nix fmt` to format the entire repository.
       formatter = forAllSystems (system: nixpkgsFor.${system}.nixfmt-tree);
 
-      ### Everything below this line is just boilerplate to import the other files in this repository.
-      ### You can safely ignore it unnless you want to change the folder structure
+      ################################################################################################
+      # Everything below this line is just boilerplate to import the other files in this repository. #
+      # You can safely ignore it unless you want to change the folder structure                      #
+      ################################################################################################
 
       # Each subdirectory in ./modules is a NixOS module.
       # Modules are reusable pieces of NixOS configuration.
@@ -75,10 +79,11 @@
             # allows to only pass what is needed to each module.
             specialArgs = {
               flake-self = self;
-            } // inputs;
+            }
+            // inputs;
 
             modules = [
-              (import "${./.}/machines/${machineName}/configuration.nix" { inherit self; })
+              (import "${./.}/machines/${machineName}/configuration.nix")
               { imports = builtins.attrValues self.nixosModules; }
             ];
 
@@ -94,9 +99,6 @@
             name = nixpkgs.lib.strings.removeSuffix ".nix" filename;
             value =
               {
-                pkgs,
-                lib,
-                username,
                 ...
               }:
               {
@@ -105,7 +107,8 @@
                   "${./.}/home-manager/profiles/common.nix"
                   # and import the chosen profile
                   "${./.}/home-manager/profiles/${filename}"
-                ] ++ (builtins.attrValues self.homeManagerModules);
+                ]
+                ++ (builtins.attrValues self.homeManagerModules);
               };
           })
           (

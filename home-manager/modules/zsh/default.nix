@@ -21,10 +21,10 @@ in
       enable = true;
       autosuggestion.enable = true;
       enableCompletion = true;
-      dotDir = ".config/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
 
       sessionVariables = {
-        ZDOTDIR = "$HOME/.config/zsh";
+        ZDOTDIR = "${config.xdg.configHome}/zsh";
       };
 
       initContent = ''
@@ -34,6 +34,9 @@ in
 
       history = {
         expireDuplicatesFirst = true;
+        ignoreSpace = false;
+        save = 15000;
+        share = true;
       };
 
       plugins = [
@@ -68,7 +71,7 @@ in
 
         ### Important
 
-        ## TODO: uncomment this line for a friendlier shell experience
+        ## uncomment this line for a friendlier shell experience
         # please = "sudo";
       };
     };

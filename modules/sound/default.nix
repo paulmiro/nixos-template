@@ -15,7 +15,6 @@ in
     ## audio on linux is a mess.
     ## this module shloud make it "just work"
 
-    services.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
       enable = true;

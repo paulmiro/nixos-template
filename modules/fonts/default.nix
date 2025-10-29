@@ -13,8 +13,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # TODO: change this to your liking
-
     fonts = {
       fontDir.enable = true;
 

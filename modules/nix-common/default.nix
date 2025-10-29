@@ -11,61 +11,55 @@ in
 {
   options.my-config.nix-common = {
     enable = lib.mkEnableOption "activate nix-common";
+    disable-cache = lib.mkEnableOption "not use binary-cache";
   };
 
   config = lib.mkIf cfg.enable {
-    ## this module sets some sane options for the nix package manager
-    ## you don't need to understand all of this to make use of it
-
-    # Set the $NIX_PATH entry for nixpkgs. This is necessary in
-    # this setup with flakes, otherwise commands like `nix-shell
-    # -p pkgs.htop` will keep using an old version of nixpkgs.
-    # With this entry in $NIX_PATH it is possible (and
-    # recommended) to remove the `nixos` channel for both users
-    # and root e.g. `nix-channel --remove nixos`. `nix-channel
-    # --list` should be empty for all users afterwards
-    nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-
-    # allow the use of `nix run nixpkgs#hello` instead of nix run 'github:nixos/nixpkgs#hello'
-    nix.registry.nixpkgs.flake = nixpkgs;
 
     nixpkgs = {
       overlays = [ ];
-      # Allow unfree licenced packages
-      # config.allowUnfree = true; # TODO: uncomment to allow unfree packages
+      config = import ./nixpkgs-config.nix;
     };
 
     nix = {
       package = pkgs.nixVersions.stable;
-      extraOptions = ''
-        # this enables the technically experimental feature Flakes
-        experimental-features = nix-command flakes
-
-        # If set to true, Nix will fall back to building from source if a binary substitute fails.
-        fallback = true
-
-        # the timeout (in seconds) for establishing connections in the binary cache substituter. 
-        connect-timeout = 10
-
-        # these log lines are only shown on a failed build
-        log-lines = 25
-
-        # Free up to 1GiB whenever there is less than 100MiB left.
-        min-free = ${toString (100 * 1024 * 1024)}
-        max-free = ${toString (1024 * 1024 * 1024)}
-      '';
+      nixPath = [ "nixpkgs=${nixpkgs}" ];
+      registry.nixpkgs.flake = nixpkgs;
 
       settings = {
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+
+        substituters = lib.mkIf (cfg.disable-cache != true) [
+          # chache.nixos.org has priority=40
+          ## uncomment this line (and the key below) to allow using the binary cache for nix-community projects
+          # "https://nix-community.cachix.org/?priority=70"
+        ];
+
+        trusted-public-keys = lib.mkIf (cfg.disable-cache != true) [
+          # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+
+        connect-timeout = 5;
+
+        builders-use-substitutes = true;
+
+        fallback = true;
+
         trusted-users = [
           "root"
           "@wheel"
         ];
 
-        # Users allowed to run nix
-        allowed-users = [ "root" ];
+        log-lines = 25;
 
         # Save space by hardlinking store files
         auto-optimise-store = true;
+
+        min-free = (512 * 1024 * 1024);
+        max-free = (2048 * 1024 * 1024);
       };
 
       # Clean up old generations after 30 days
@@ -74,6 +68,23 @@ in
         dates = "weekly";
         options = "--delete-older-than 30d";
       };
+
+      # nix can sometimes make your desktop unresponsive. This is a workaround for that issue
+      daemonCPUSchedPolicy = if config.my-config.common-desktop.enable then "idle" else "batch";
+      daemonIOSchedClass = lib.mkDefault "idle";
+      daemonIOSchedPriority = lib.mkDefault 7;
+    };
+
+    # This script will show you a diff for the installed packages on every rebuild
+    system.activationScripts.diff = {
+      supportsDryActivation = true;
+      text = ''
+        if [[ -e /run/current-system ]]; then
+          echo "--- diff to current-system"
+          ${pkgs.nvd}/bin/nvd --nix-bin-dir=${config.nix.package}/bin diff /run/current-system "$systemConfig"
+          echo "---"
+        fi
+      '';
     };
   };
 }

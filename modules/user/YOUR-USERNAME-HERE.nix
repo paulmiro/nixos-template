@@ -18,21 +18,24 @@ in
     # if you have installed NixOS with the default installer, you will have set a username there. Be sure to use the same one here
     users.users.YOUR-USERNAME-HERE = {
       isNormalUser = true;
-      # description = "Max Mustermann"; # TODO set your display name here
+      description = "Example Username"; # TODO set your display name here
       extraGroups = [
         "wheel"
         (lib.mkIf config.networking.networkmanager.enable "networkmanager")
       ];
       shell = lib.mkIf config.programs.zsh.enable pkgs.zsh;
+
       ## TODO: either set a password with ‘passwd’ immediately after installing, or, if you understand the implications, set a hashed password below
       ## if you used the graphical installer you probably set a password from there and don't need to do this
       # initialHashedPassword = "YOUR-HASHED-PASSWORD-HERE";
-      ## This looks stupid but does the job if you want your own user to trust the same ssh public keys as the root user
-      # openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys;
-    };
 
-    nix.settings = {
-      allowed-users = [ "YOUR-USERNAME-HERE" ];
+      openssh.authorizedKeys.keys = [
+        # TODO: add your trusted ssh keys here
+        # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM///////////////NOT+A+REAL+KEY///////////// user@host"
+      ]
+      ## you can additionally inherit the root user's trusted keys by uncommenting this line
+      # ++ config.users.users.root.openssh.authorizedKeys.keys
+      ;
     };
   };
 }

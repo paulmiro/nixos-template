@@ -25,9 +25,17 @@ in
     services.nginx = {
       enable = true;
       clientMaxBodySize = "8196m"; # 8GiB, fixes some issues with services that require large file uploads
+
+      recommendedBrotliSettings = true;
+      recommendedGzipSettings = true;
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
+
+      # send access logs to the systemd journal instead of /var/log/nginx/access.log
+      commonHttpConfig = ''
+        access_log syslog:server=unix:/dev/log;
+      '';
 
       virtualHosts = lib.mkIf (cfg.defaultDomain != null) {
         ${cfg.defaultDomain} = {
@@ -42,7 +50,7 @@ in
     };
 
     ## some parts of this template repostory will break without this.
-    ## if you don't want to accept the letsencrpt TOS, just remove all mentions of enableACME and forceSSL
+    ## if you don't want to accept the letsencrpt TOS, just remove all occurences of "enableACME = true;" and "forceSSL = true;"
     # security.acme.defaults.email = "example@example.com"; # TODO: add an email address for letsencrypt
     # security.acme.acceptTerms = true; # TODO: uncomment to accept letsencrypt terms of service
 

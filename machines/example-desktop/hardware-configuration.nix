@@ -27,16 +27,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/GENERATED-UUID-ROOT";
-    fsType = "btrfs";
-    options = [ "subvol=@" ];
+    device = "/dev/disk/by-uuid/UUID-OF-ROOT-PARTITION";
+    fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-GENERATED-UUID-LUKS".device =
-    "/dev/disk/by-uuid/GENERATED-UUID-LUKS";
-
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/GENERATAED-UUID-BOOT";
+    device = "/dev/disk/by-uuid/UUID-OF-BOOT-PARTITION";
     fsType = "vfat";
     options = [
       "fmask=0077"

@@ -1,5 +1,6 @@
-# This GitHub action will create a pull request each week to update your inputs
-# TODO: if you want to use this, make sure to set the following options in your repository:
+# This GitHub action will create a pull request each week to update your inputs.
+# When you accept this pull request and rebuild, you will update all your packages to the latest version.s
+# TODO: if you want to use this, make sure to set the following options in your github repository:
 # under Settings > Actions > General > Workflow Permissions
 # - Read and write permissions
 # - Allow GitHub Actions to create and approve pull requests

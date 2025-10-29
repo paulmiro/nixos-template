@@ -40,13 +40,13 @@ in
       useUserPackages = true;
       backupFileExtension = "hm-backup";
       extraSpecialArgs = {
-        # Pass all flake inputs to home-manager modules aswell so we can use them
-        # there.
+        # Pass all flake inputs to home-manager modules aswell so we can use them there.
         inherit flake-self;
         # Pass system configuration (top-level "config") to home-manager modules,
         # so we can access it's values for conditional statements
         system-config = config;
-      };
+      }
+      // flake-self.inputs;
       users.YOUR-USERNAME-HERE = flake-self.homeConfigurations.${cfg.profile};
       users.root = flake-self.homeConfigurations.${cfg.rootProfile};
     };

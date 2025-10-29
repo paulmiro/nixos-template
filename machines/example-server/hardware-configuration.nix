@@ -28,13 +28,13 @@
   boot.growPartition = true;
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/GENERATED-UUID-HERE-ROOT";
+    device = "/dev/disk/by-uuid/UUID-OF-ROOT-PARTITION";
     fsType = "ext4";
     autoResize = true;
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/GENERATED-UUID-HERE-BOOT";
+    device = "/dev/disk/by-uuid/UUID-OF-BOOT-PARTITION";
     fsType = "vfat";
   };
 

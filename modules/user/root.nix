@@ -14,7 +14,7 @@ in
   config = lib.mkIf cfg.enable {
     users.users.root = {
       openssh.authorizedKeys.keys = [
-        # TODO: add your trusted ssh keys here
+        # you can add ssh keys that are trusted by the root user here
         # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM///////////////NOT+A+REAL+KEY///////////// user@host"
       ];
     };

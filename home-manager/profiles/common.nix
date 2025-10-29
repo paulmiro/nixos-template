@@ -34,10 +34,10 @@
       # zellij
     ];
 
-    # Let Home Manager install and manage itself.
+    # Let Home Manager install and manage itself
     programs.home-manager.enable = true;
 
     ### 🚧 Do NOT change this value 🚧
-    home.stateVersion = "25.05";
+    home.stateVersion = "25.11";
   };
 }

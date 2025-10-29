@@ -18,7 +18,7 @@ in
     services.desktopManager.gnome.enable = true;
 
     # Enable the X11 windowing system.
-    # GNOME will still run with wayland by default
+    # GNOME will still run on wayland by default
     services.xserver.enable = true;
 
     environment.gnome.excludePackages = with pkgs; [
