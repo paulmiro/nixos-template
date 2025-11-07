@@ -29,6 +29,10 @@
     networkmanager.enable = true;
   };
 
+  boot.supportedFilesystems = {
+    zfs = false; # the zfs kernel package for aarch64 is not cached
+  };
+
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
   # This option defines the first version of NixOS you have installed on this particular machine,
