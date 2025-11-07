@@ -5,7 +5,7 @@
 }:
 let
   cfg = config.my-config.nixpkgs-config;
-  nixpkgs-config = import ./../../../modules/nix-common/nixpkgs-config.nix; # this makes sure we share the config between home-manager and nixos
+  path = ./../../../modules/nix-common/nixpkgs-config.nix;
 in
 {
   options.my-config.nixpkgs-config = {
@@ -13,7 +13,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.config = nixpkgs-config;
-    xdg.configFile."nixpkgs/config.nix".source = config.my-config.nixpkgs-config.path;
+    nixpkgs.config = import path;
+    xdg.configFile."nixpkgs/config.nix".source = ./../../../modules/nix-common/nixpkgs-config.nix;
   };
 }
