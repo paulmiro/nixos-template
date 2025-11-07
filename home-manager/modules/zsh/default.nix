@@ -73,6 +73,8 @@ in
 
         ## uncomment this line for a friendlier shell experience
         # please = "sudo";
+
+        "ßh" = "ssh";
       };
     };
 
