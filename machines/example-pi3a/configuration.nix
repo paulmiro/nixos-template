@@ -26,7 +26,17 @@
 
   networking = {
     hostName = "example-pi3a";
-    networkmanager.enable = true;
+    ##### TONDORF
+    useDHCP = true;
+    wireless = {
+      enable = true;
+      networks = {
+        ddd = {
+          psk = "mamamama"; # (password will be written to /nix/store!)
+        };
+      };
+    };
+    ##### END TONDORF
   };
 
   boot.supportedFilesystems = {
