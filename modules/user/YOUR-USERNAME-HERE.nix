@@ -13,8 +13,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # TODO: find and replace every instance of "YOUR-USERNAME-HERE" in this repo with your username, including this file's name
-    # changing your username is very hard to do, so choose wisely
+    # TODO: search-and-replace every instance of "YOUR-USERNAME-HERE" in this repo with your username, including this file's name
+    # changing your username later is very hard to do, so choose wisely
     # if you have installed NixOS with the default installer, you will have set a username there. Be sure to use the same one here
     users.users.YOUR-USERNAME-HERE = {
       isNormalUser = true;

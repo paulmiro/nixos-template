@@ -18,9 +18,8 @@
     nixos-hardware.nixosModules.raspberry-pi-3
   ];
 
-  # nix build .\#nixosConfigurations.pi3a.config.system.build.sdImage
-  # add boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; to your x86 system
-  # to be able to build ARM stuff through qemu
+  ## nix build .\#nixosConfigurations.pi3a.config.system.build.sdImage
+  ## you will need to add `boot.binfmt.emulatedSystems = [ "aarch64-linux" ];` to your x86 system's config to be able to build ARM stuff through qemu
   sdImage.compressImage = false;
   image.baseName = "raspi-image";
 

@@ -49,10 +49,11 @@ in
       };
     };
 
-    ## some parts of this template repostory will break without this.
+    ## TODO: uncomment and fill the two options below to accept the letsencrpt TOS
     ## if you don't want to accept the letsencrpt TOS, just remove all occurences of "enableACME = true;" and "forceSSL = true;"
-    # security.acme.defaults.email = "example@example.com"; # TODO: add an email address for letsencrypt
-    # security.acme.acceptTerms = true; # TODO: uncomment to accept letsencrypt terms of service
+    ## some of the example machine configurations in this repository will refuse to build without this.
+    # security.acme.defaults.email = "example@example.com";
+    # security.acme.acceptTerms = true;
 
     networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [
       80

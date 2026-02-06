@@ -108,7 +108,7 @@
                   # and import the chosen profile
                   "${./.}/home-manager/profiles/${filename}"
                 ]
-                ++ (builtins.attrValues self.homeManagerModules);
+                ++ (builtins.attrValues self.homeModules);
               };
           })
           (
@@ -124,7 +124,7 @@
       # Each module needs a default.nix file that is read first.
       # It is recommended to add an "enable" option to each module, as the configuration
       #   would be activated for all machines by default otherwise
-      homeManagerModules = builtins.listToAttrs (
+      homeModules = builtins.listToAttrs (
         map (name: {
           inherit name;
           value = import (./home-manager/modules + "/${name}");
