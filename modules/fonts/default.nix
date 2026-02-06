@@ -18,7 +18,7 @@ in
 
       packages = with pkgs; [
         meslo-lgs-nf
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         recursive
       ];
 

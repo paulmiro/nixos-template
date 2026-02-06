@@ -17,9 +17,10 @@ in
     # programs.steam.enable = true;
 
     environment.systemPackages = with pkgs; [
-      # lutris usually depends on some unfree software, but the lutris-free package has these dependencies removed
-      # if you're fine with using unfree dependencies, you can replace "lutrsis-free" with "lutris" here
-      (lutris-free.override {
+      (lutris.override {
+        # lutris' steam support requires unfree dependencies.
+        # you can remove this option if you're fine with that.
+        steamSupport = false;
         extraPkgs = pkgs: [
           # List extra package dependencies here
         ];
